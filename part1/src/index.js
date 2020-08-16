@@ -1,61 +1,76 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-//Working with JSX
-/*const App = () => {
-  console.log('Hello from component')
-  const a = 10
-  const b = 20
-  const now = new Date()
- /*return React.createElement(
-    'div',
-    null,
-    React.createElement(
-      'p', null, ' Hello world, it is ', now.toString()
-    ),
-    React.createElement(
-      'p', null, a, ' plus ', b, ' is ', a + b
+const Header = (props) =>{
+  return(
+    <>
+      <h1>{props.course_name} Course</h1>
+    </>
+  )
+}
+const Part = (props) => {
+  return(
+<p>{props.part_name} {props.part_exe_num}</p>
+  )
+}
+
+ const Content = (props) =>{
+   /*var rows = [];
+   for (var i = 0; i < (props.part_name).length; i++){
+     const item = props.part_name[i]
+     rows.push(
+    <>
+      <p>Course part - {props.part_name[i]} - has {props.part_exe_num[i]} exercises</p>
+    </>
     )
-  )*/
-  /*return(
-  <div>
-    <p>Hello world</p>
-    <p>
-      {a} plus {b} is {a + b}
-    </p>
-  </div>
-  ) 
-  }*/
+   }
+   return(rows)*/
+   return(<>
+   <Part part_name={props.part_name[0]} part_exe_num={props.part_exe_num[0]}/>
+   <Part part_name={props.part_name[1]} part_exe_num={props.part_exe_num[1]}/>
+   <Part part_name={props.part_name[2]} part_exe_num={props.part_exe_num[2]}/>
+   </>
+   )
+  }
 
-  //Multiple Components
-  const Hello = (props) => {
+  const Total = (props) =>{
     return(
-      <div>
-        <p>Hello {props.name}, you are {props.age} years old</p>
-      </div>
+    <div>
+      <p>Number of exercises: {props.exercises_num}</p>
+    </div>
     )
   }
+const App = () => {
+  const course = 'Half Stack application development'
+  const part1 = 'Fundamentals of React'
+  const exercises1 = 10
+  const part2 = 'Using props to pass data'
+  const exercises2 = 7
+  const part3 = 'State of a component'
+  const exercises3 = 14
   
-  const App = () => {
-    const name = 'Peter'
-    const age = 10
-    return(
-      <div>
-        <h1>Greatings</h1>
-        <Hello name='Maya' age={26+10} />
-        <Hello name={name} age={age} />
-      </div>
-    )
-  }
+  return(
+    <div>
+    <Header course_name={course}/>
+    <Content part_name={[part1, part2, part3]} part_exe_num={[exercises1, exercises2, exercises3]} />
+    <Total exercises_num={exercises1 + exercises2 + exercises3} />
+    </div>
+  )
+  /*return (
+    <div>
+      <h1>{course}</h1>
+      <p>
+        {part1} {exercises1}
+      </p>
+      <p>
+        {part2} {exercises2}
+      </p>
+      <p>
+        {part3} {exercises3}
+      </p>
+      <p>Number of exercises {exercises1 + exercises2 + exercises3}</p>
+    </div>
+  )*/
+}
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
+ReactDOM.render(<App />, document.getElementById('root'))
