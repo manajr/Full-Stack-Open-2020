@@ -59,16 +59,16 @@ const Statistics = ({values, text}) => {
     )
   }
   else if(text === 'good' || text === 'neutral' || text === 'bad'){
-   return(
-     <table>
+  return(
+    <table>
       <tbody>
         <tr>
           <td>{text}</td>
           <td>{values}</td>
         </tr>
       </tbody>
-     </table>
-   )
+    </table>
+  )
   }
   else if(text === 'all'){
     const all = inner_value.reduce((a,b) => a + b, 0 )
