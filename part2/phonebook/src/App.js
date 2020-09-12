@@ -1,22 +1,28 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import PersonForm from './Components/PersonForm'
 import Person from './Components/Person'
 import Filter from './Components/Filter'
+import axios from 'axios'
 
 const App = () => {
-  const [ persons, setPersons ] = useState([
-    {name: 'Arto Hellas',
-     number: "040-1234567"},
-    { name: 'Ada Lovelace', number: '39-44-5323523' },
-    { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
-  ])
+
+  const [ persons, setPersons ] = useState([])
   const [ personsSearch, setPersonsSearch ] = useState([])
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber] = useState('')
   const [ search, setSearch] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
 
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        console.log(response.data)
+        setPersons(response.data)
+      })
+  }, [])
+  
   const addPerson = (event) => {
     event.preventDefault()
     const newPerson = {
@@ -52,9 +58,10 @@ const App = () => {
     setNewSearch(event.target.value)
   }
 
-  const item = (search.length > 1) ?
+  const item = ( (search.length > 1) ?
     persons.filter(data => data.name.includes(search)) :
-    persons;
+    persons
+  )
 
   return (
     <div>
