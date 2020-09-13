@@ -3,6 +3,7 @@ import PersonForm from './Components/PersonForm'
 import Person from './Components/Person'
 import Filter from './Components/Filter'
 import axios from 'axios'
+import personService from './services/persons'
 
 const App = () => {
 
@@ -14,12 +15,10 @@ const App = () => {
   const [ newSearch, setNewSearch ] = useState('')
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        console.log(response.data)
-        setPersons(response.data)
+    personService
+      .getAll()
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
   
@@ -41,9 +40,13 @@ const App = () => {
         person.name.toLowerCase().includes(search.toLowerCase()))))
       }
       else{
-        setPersons(persons.concat(newPerson))
-        setNewName('')
-        setNewNumber('')
+        personService
+        .create(newPerson)
+        .then(returnedPerson => {
+          setPersons(persons.concat(newPerson))
+          setNewName('')
+          setNewNumber('')
+        })
       }
     }
   }
