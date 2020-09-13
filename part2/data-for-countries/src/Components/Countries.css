@@ -1,0 +1,7 @@
+img {
+    width:200px;
+}
+
+.weather__container > img {
+    width: 50px;
+}
