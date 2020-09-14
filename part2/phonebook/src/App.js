@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import PersonForm from './Components/PersonForm'
 import Person from './Components/Person'
 import Filter from './Components/Filter'
-import axios from 'axios'
 import personService from './services/persons'
 
 const App = () => {
@@ -13,6 +12,7 @@ const App = () => {
   const [ newNumber, setNewNumber] = useState('')
   const [ search, setSearch] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
+  const [temp, setTemp] = useState()
 
   useEffect(() => {
     personService
@@ -28,22 +28,38 @@ const App = () => {
       name: newName,
       number: newNumber
     }
-    
-    if(persons.filter(person => person.name === newName).length !== 0){
-      window.alert(`${newName} already exist in the list`)
+    const personIndentifier = persons.filter(person => person.name === newName)
+
+    if(personIndentifier?.length !== 0){
+      if(newNumber !== ''){
+        const checkPut = window.confirm(`${newName} is already added to phonebook,
+         replace the old number with a new one?`)
+        if (checkPut){
+          const changedPerson = {...personIndentifier[0], number: newNumber}
+
+          personService
+          .update(personIndentifier[0].id, changedPerson)
+          .then(returnedPerson =>{
+            setPersons(persons.map(person => person.id !== personIndentifier[0].id ? person: returnedPerson))
+          })
+        }
+      }
+      else{
+        window.alert(`${newName} already exist in the list`)
+      }
     }
     else{
       if (newName === ''){
         setSearch(newSearch)
         setNewSearch('')
         setPersonsSearch(personsSearch.concat(persons.filter(person => 
-        person.name.toLowerCase().includes(search.toLowerCase()))))
+          person.name.toLowerCase().includes(search.toLowerCase()))))
       }
       else{
         personService
         .create(newPerson)
         .then(returnedPerson => {
-          setPersons(persons.concat(newPerson))
+          setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
         })
@@ -66,6 +82,14 @@ const App = () => {
     persons
   )
 
+
+
+ //Get value from Person component 
+  const trackerPerson = (id) => {
+    setTemp(id)
+    setPersons(persons.filter(n => n.id.toString() !== id))
+  }
+
   return (
     <div>
       <Filter newSearch={newSearch} handleChange={handlePersonSearch} />
@@ -80,7 +104,7 @@ const App = () => {
         </form>
         
         <h2>Numbers</h2>
-        <Person item={item} />
+          <Person item={item} tracker={trackerPerson} />
     </div>
   )
 }
