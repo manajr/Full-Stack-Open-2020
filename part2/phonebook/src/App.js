@@ -3,6 +3,7 @@ import PersonForm from './Components/PersonForm'
 import Person from './Components/Person'
 import Filter from './Components/Filter'
 import personService from './services/persons'
+import Notification from './Components/Notification'
 
 const App = () => {
 
@@ -12,7 +13,7 @@ const App = () => {
   const [ newNumber, setNewNumber] = useState('')
   const [ search, setSearch] = useState('')
   const [ newSearch, setNewSearch ] = useState('')
-  const [temp, setTemp] = useState()
+  const [ errorMenssage, setErrorMenssage ] = useState(null)
 
   useEffect(() => {
     personService
@@ -59,6 +60,8 @@ const App = () => {
         personService
         .create(newPerson)
         .then(returnedPerson => {
+          setErrorMenssage(`Added ${returnedPerson.name}`)
+          setTimeout(() => setErrorMenssage(null), 5000)
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
@@ -86,13 +89,14 @@ const App = () => {
 
  //Get value from Person component 
   const trackerPerson = (id) => {
-    setTemp(id)
     setPersons(persons.filter(n => n.id.toString() !== id))
   }
 
   return (
     <div>
-      <Filter newSearch={newSearch} handleChange={handlePersonSearch} />
+      <h2>Phonebook</h2>
+      <Notification message={errorMenssage} />
+      <Filter newSearch={newSearch} handleChange={handlePersonSearch}/>
       <h2>add a new</h2>
           <PersonForm newItem={newName}
           handleChange={handlePersonChange} text={'name:'}/>
@@ -104,7 +108,8 @@ const App = () => {
         </form>
         
         <h2>Numbers</h2>
-          <Person item={item} tracker={trackerPerson} />
+          <Person item={item} tracker={trackerPerson}
+          state={setErrorMenssage} />
     </div>
   )
 }

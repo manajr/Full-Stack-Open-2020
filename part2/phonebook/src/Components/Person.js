@@ -1,7 +1,8 @@
 import React from 'react'
 import personService from '../services/persons'
 
-const Person = ({item, tracker}) =>{
+const Person = ({item, tracker, state}) =>{
+
     const whenClick = (event) => {
         event.preventDefault()
         const nameFiltered = item.filter(n=>
@@ -12,6 +13,12 @@ const Person = ({item, tracker}) =>{
             tracker(event.target.id)
             personService
             .deletePerson(event.target.id)
+            .catch(error=>{
+                state(`Information of ${nameFiltered[0]?.name} has already been removed from server`)
+                setTimeout(()=> {
+                    state(null)
+                },5000)
+            })
         }
     }
 

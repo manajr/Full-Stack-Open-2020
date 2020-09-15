@@ -19,7 +19,6 @@ const getAll = () => {
 
   const deletePerson = (id) => {
     const request = axios.delete(`${baseUrl}/${id}`)
-    console.log(id)
     return request.then(response => response.data)
   }
 
