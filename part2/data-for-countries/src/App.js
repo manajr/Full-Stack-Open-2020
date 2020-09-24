@@ -56,8 +56,6 @@ function App() {
     })
   }, [newSearch])
 
- // console.log(search)
-
   const handleCountrieChange = (event) => {
     setNewSearch(event.target.value)
   }
