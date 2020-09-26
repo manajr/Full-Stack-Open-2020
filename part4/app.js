@@ -6,7 +6,6 @@ const cors = require('cors')
 const mongoose = require('mongoose')
 const logging = require('./utils/logging')
 const config = require('./utils/config')
-const Blog = require('./models/blog')
 
 logging.info('connecting to', config.MONGODB_URI)
 
