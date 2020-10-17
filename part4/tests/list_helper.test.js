@@ -1,6 +1,8 @@
 const dummy = require('../utils/list_helper').dummy
 const totalLikes = require('../utils/list_helper').totalLikes
 const favoriteBlog = require('../utils/list_helper').favoriteBlog
+const mostBlogs = require('../utils/list_helper').mostBlogs
+const mostLikes = require('../utils/list_helper').mostLikes
 
 const blogs = [
 	{ _id: "5a422a851b54a676234d17f7", title: "React patterns", author: "Michael Chan", url: "https://reactpatterns.com/", likes: 7, __v: 0 },
@@ -51,4 +53,25 @@ describe('favoriteBlog', () => {
 	test('favorite blog post', () => {
 		expect(favoriteBlog(blogs)).toEqual(testObject)
 	})
+})
+
+describe('mostBlogs', () => {
+  const testObject = {
+  author: "Robert C. Martin",
+  blogs: 3
+  }
+  test('most blog post author', () => {
+    expect(mostBlogs(blogs)).toEqual(testObject)
+  })
+})
+
+describe('mostLikes', () => {
+  const testObject = {
+  author: "Edsger W. Dijkstra",
+  likes: 17
+  }
+  console.log(mostLikes(blogs))
+  test('most liked author', () => {
+    expect(mostLikes(blogs)).toEqual(testObject)
+  })
 })
