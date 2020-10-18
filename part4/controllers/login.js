@@ -5,8 +5,11 @@ const User = require('../models/user')
 
 loginRouter.post('/', async (request, response) => {
   const body = request.body
+  if (body.password.length <= 3) {
+    return response.status(400).json({error: 'content missing'})
+  }
 
-  const user= await User.findOne({username: body.username})
+  const user = await User.findOne({username: body.username})
   const passwordCorrect = user === null
   ? false
   : await bcrypt.compare(body.password, user.passwordHash)
@@ -16,14 +19,15 @@ loginRouter.post('/', async (request, response) => {
       error: 'invalid username or password'
     })
   }
-
   const userForToken = {
     username: user.username,
     id: user._id
   }
 
   const token = jwt.sign(userForToken, process.env.SECRET)
+
   response
+  .header('authorization', `bearer ${token}`)
   .status(200)
   .send({token, username: user.username, name: user.name})
 })

@@ -1,6 +1,9 @@
+const supertest = require('supertest')
 const bcrypt = require('bcrypt')
 const User = require('../models/user')
 const helper = require('./test_helper.js')
+const app = require('../app')
+const api = supertest(app)
 
 jest.setTimeout(100000)
 
@@ -46,7 +49,7 @@ describe('when there is initially one user in db', () => {
     }
 
     const result = await api
-    .post('api/users')
+    .post('/api/users')
     .send(newUser)
     .expect(400)
     .expect('Content-Type', /application\/json/)
@@ -56,4 +59,17 @@ describe('when there is initially one user in db', () => {
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd.toHaveLength.length)
   })
+  
+  test('Reciving error with user and password with invalid length', async () => {
+    const newUser = {
+      username: 'Jog',
+      password: '123'
+    }
+    
+    await api
+    .post('/api/login')
+    .send(newUser)
+    .expect(400)
+    
+  }) 
 })

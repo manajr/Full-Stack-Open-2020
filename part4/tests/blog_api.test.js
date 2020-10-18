@@ -9,12 +9,10 @@ jest.setTimeout(100000)
 
 beforeEach(async () => {
   await Blog.deleteMany({})
-  console.log('cleared')
 
   const postObject = helper.initialPost.map( (post) => new Blog(post))
   const promiseArray = postObject.map(post => post.save())
   await Promise.all(promiseArray)
-  console.log('done')
 })
 
 test('test post quantities', async () => {

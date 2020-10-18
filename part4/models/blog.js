@@ -1,4 +1,11 @@
 const mongoose = require('mongoose')
+const User = require('../models/user')
+
+const firstUser = async () => {
+  return await User.find({})[0]
+}
+
+//const firstUserId = firstUser().id
 
 const blogSchema = new mongoose.Schema({
     title: {type: String, required: true},
@@ -7,6 +14,7 @@ const blogSchema = new mongoose.Schema({
     likes: {type: Number, default: 0},
     user: {
       type: mongoose.Schema.Types.ObjectId,
+      //default: firstUserId,
       ref: 'User'
     }
 })
