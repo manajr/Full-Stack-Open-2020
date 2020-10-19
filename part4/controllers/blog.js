@@ -5,6 +5,14 @@ const { nonExistingId } = require('../tests/test_helper')
 const jwt = require('jsonwebtoken')
 const { find } = require('../models/user')
 
+const getTokenFrom = (request, response, next) => {
+  const authorization = request.get('authorization')
+  if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
+    return authorization.substring(7)  
+  }
+  return null
+}
+
 blogsRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({}).populate("user", {username: 1, name: 1})
     response.json(blogs)
@@ -26,7 +34,6 @@ blogsRouter.post('/', async (request, response) => {
    ? signToken 
    : tokenFromHeader
   
-  const token = getTokenFrom(request)
   const decodedToken = jwt.verify(token, process.env.SECRET)
   if(!token || !decodedToken.id) {
     return response.status(401).json({error: 'token missing or invalid'})
@@ -48,8 +55,28 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndRemove(request.params.id)
-  response.status(204).end()
+  const blog = await Blog.findById(request.params.id)
+  const token = getTokenFrom(request)
+  const userFromTokem = jwt.verify(token, process.env.SECRET)
+  console.log('Token user', userFromTokem,'\n','Blog user:', blog.user)
+/*  
+  const userForToken = {
+    username: blog.user,
+    id: blog.user.id
+  }
+
+  const signToken = jwt.sign(userForToken, process.env.SECRET)
+
+  const isTokenValid = token === signToken
+  ? true
+  : false
+  */
+
+  if ( blog.user.toString() === userFromTokem.id.toString()) {
+    await Blog.findByIdAndRemove(request.params.id)
+    response.status(204).end()
+  }
+  response.status(404).json({error:"User aren't logged in with the blog account"})
 })
 
 blogsRouter.put('/:id', async (request, response) => {
