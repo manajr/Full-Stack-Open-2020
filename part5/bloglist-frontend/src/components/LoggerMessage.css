@@ -1,0 +1,26 @@
+.green {
+  background-color: rgba(126, 212, 126, 0.774);
+  border: solid 3px;
+  border-color: rgb(0, 88, 0);
+  border-radius: 10px;
+  color: green;
+}
+
+.green p {
+  color: rgb(0, 95, 0);
+  font-weight: 800;
+}
+
+
+.red {
+  background-color: rgba(212, 126, 126, 0.774);
+  border: solid 3px;
+  border-color: rgb(88, 0, 0);
+  border-radius: 10px;
+  color: red;
+}
+
+.red p {
+  color: rgb(95, 0, 0);
+  font-weight: 800;
+}
