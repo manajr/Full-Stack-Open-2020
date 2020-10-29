@@ -25,8 +25,16 @@ const deleteBlog = async (id) => {
   const config = {
     headers: { Authorization: token}
   }
-  await axios.delete(`${baseUrl}/${id}`, config)
+  const deletedUser = await axios.delete(`${baseUrl}/${id}`, config)
+  return deletedUser
+}
 
+const update = async(id, blog) => {
+  const config ={
+    headers: {Authorization: token}
+  }
+  const updatedUser = await axios.put(`${baseUrl}/${id}`, blog, config)
+  return updatedUser
 }
 
 const getUserBlogs = (user) => {
@@ -39,4 +47,4 @@ const getUserBlogs = (user) => {
 }
 
 export default { getAll, getUserBlogs, setToken, create
-, deleteBlog}
+, deleteBlog, update}
