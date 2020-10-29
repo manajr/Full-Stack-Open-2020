@@ -28,7 +28,7 @@ const App = () => {
       const user = JSON.parse(loggedUserJson)
       setUser(user)
       blogService.setToken(user.token)
-      blogService.getUserBlogs(user).then(blogs => setBlogs(blogs))
+      //blogService.getUserBlogs(user).then(blogs => setBlogs(blogs))
     }
   }, [])
 
@@ -36,8 +36,8 @@ const App = () => {
     event.preventDefault()
     try{
       const user = await loginService.login({ username, password })
-      const getUserPosts = await blogService.getUserBlogs(user)
-      setBlogs(getUserPosts)
+      //const getUserPosts = await blogService.getUserBlogs(user)
+     // setBlogs(getUserPosts)
 
       setErrorMessage(`Welcome ${user.name}`)
       setTimeout(() => {setErrorMessage('')},5000)
