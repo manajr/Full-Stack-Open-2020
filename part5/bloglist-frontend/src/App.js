@@ -37,7 +37,7 @@ const App = () => {
     try{
       const user = await loginService.login({ username, password })
       //const getUserPosts = await blogService.getUserBlogs(user)
-     // setBlogs(getUserPosts)
+      // setBlogs(getUserPosts)
 
       setErrorMessage(`Welcome ${user.name}`)
       setTimeout(() => {setErrorMessage('')},5000)
