@@ -25,20 +25,20 @@ function NewBlog({createBlog}) {
   }
 
   const blogForm = () => {
-  const formLabel = Object.keys(newBlog)
+    const formLabel = Object.keys(newBlog)
     return(
       <div>
         <form onSubmit={addBlog}>
           {formLabel.map( contentName => 
-          <NewBlogForm key={contentName} newPost={newBlog} label={contentName}
-           handleFormChange={handleFormChange}
+            <NewBlogForm key={contentName} newPost={newBlog} label={contentName}
+              handleFormChange={handleFormChange}
             />
-            )
+          )
           }
-          <button type="submit">create</button>
+          <button id='newBlog__CreateBtn' type="submit">create</button>
         </form>
       </div>
-        )
+    )
   }
 
   return (
