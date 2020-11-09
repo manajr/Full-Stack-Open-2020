@@ -1,70 +1,56 @@
-const anecdotesAtStart = [
-  'If it hurts, do it more often',
-  'Adding manpower to a late software project makes it later!',
-  'The first 90 percent of the code accounts for the first 90 percent of the development time...The remaining 10 percent of the code accounts for the other 90 percent of the development time.',
-  'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
-  'Premature optimization is the root of all evil.',
-  'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-]
+import utils from '../utils/utils'
+import anecdoteService from '../services/anecdote'
+//const initialState = anecdotesAtStart.map(asObject)
 
-const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
-
-const sortingByVotes = (state) => {
-  return state.sort((a, b) => {
-    if (a.votes > b.votes) {
-      return -1
-    }
-    if (a.votes < b.votes) {
-      return 1
-    }
-    return 0
-  })
-}
-
-const initialState = anecdotesAtStart.map(asObject)
-
-const reducer = (state = initialState, action) => {
+const reducer = (state = [], action) => {
   switch(action.type) {
     case 'VOTE':
-      const id = action.data.id
+      const id = action.data
       const noteToChange = state.find(n => n.id === id)
       const changedNote = {
         ...noteToChange,
         votes: noteToChange.votes + 1
       }
       const newState = state.map(aned => aned.id !== id ? aned : changedNote)
-      return sortingByVotes(newState)
+      return utils.sortingByVotes(newState)
     case 'NEW_ANEC':
-      const newAnec= action.data
-      return state.concat(newAnec)
+      const newAnecdoteToStore = action.data
+      return state.concat(newAnecdoteToStore)
+    case 'INITIAL_ANEC':
+      return action.data
     default:
-      return sortingByVotes(state)
+      return utils.sortingByVotes(state)
   }
 }
 
-export const addVote = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id }
+export const addVote = (object) => {
+  return async dispatch => {
+    const response = await anecdoteService.updateVote(object)
+      dispatch({
+        type: 'VOTE',
+        data: response.data.id
+    })
   }
 }
 
-export const createAnecdote = (content) => {
-  return {
-    type: 'NEW_ANEC',
-    data: {
-      content: content,
-      id: getId(),
-      votes: 0
-    }
+export const createAnecdote = data => {
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createNew(data)
+      dispatch({
+        type: 'NEW_ANEC',
+        data: newAnecdote
+    })
   }
 }
+
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = await anecdoteService.getAll()
+      dispatch({
+        type: 'INITIAL_ANEC',
+        data: utils.sortingByVotes(anecdotes)
+    })
+  }
+}
+
 export default reducer

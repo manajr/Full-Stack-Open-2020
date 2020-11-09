@@ -9,7 +9,7 @@ function Filter() {
   const handlerFilter = (event) => {
     event.preventDefault()
     setFilter(event.target.value)
-    setTimeout(() => dispatch(filterInput(filter)), 1000)
+    dispatch(filterInput(filter))
   }
 
   return (

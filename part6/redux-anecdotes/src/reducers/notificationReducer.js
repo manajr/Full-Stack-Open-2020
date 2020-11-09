@@ -1,27 +1,26 @@
 const reducer = (state = '', action) => {
   let res
   switch(action.type) {
-  case 'ADD':
-    res = action.notification.notification
-    return state = res
-  case 'NOTEFY_VOTE':
+  case 'NOTIFY':
     return action.notification
   default:
     return state
   }
 }
 
-export const addToStore = (notification) => ({
-  type: 'ADD',
-  notification
-})
+export const setNotification = (notification, time) => {
+  return async dispatch => {
+    await setTimeout(() => {
+      dispatch({
+        type:'NOTIFY',
+        notification: ''
+      })
+    }, time*1000)
 
-export const notifyWhenVote = (id, notification) => {
-  return {
-    type: 'NOTEFY_VOTE', 
-    id: { id },
-    notification
+        dispatch({
+      type: 'NOTIFY', 
+      notification: notification
+    })
   }
 }
-
 export default reducer
