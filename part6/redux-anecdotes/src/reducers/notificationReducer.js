@@ -1,5 +1,7 @@
+let HOLD_SETTIMEOUT_FUNCTION;
+let CHECK_ARRAY = []
+
 const reducer = (state = '', action) => {
-  let res
   switch(action.type) {
   case 'NOTIFY':
     return action.notification
@@ -8,19 +10,30 @@ const reducer = (state = '', action) => {
   }
 }
 
+function setDelay(callback, time) {
+  HOLD_SETTIMEOUT_FUNCTION = setTimeout(callback, time*1000);
+}
+
 export const setNotification = (notification, time) => {
+  if(CHECK_ARRAY !== notification){
+    clearTimeout(HOLD_SETTIMEOUT_FUNCTION)
+  }
+
   return async dispatch => {
-    await setTimeout(() => {
+    HOLD_SETTIMEOUT_FUNCTION = setTimeout(() => {
       dispatch({
         type:'NOTIFY',
         notification: ''
       })
     }, time*1000)
 
-        dispatch({
+    CHECK_ARRAY.unshift(notification)
+    
+    dispatch({
       type: 'NOTIFY', 
       notification: notification
     })
   }
 }
+
 export default reducer

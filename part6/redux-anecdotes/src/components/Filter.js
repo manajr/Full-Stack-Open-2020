@@ -1,15 +1,14 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
 import { filterInput } from '../reducers/filterReducer'
+import { connect } from 'react-redux'
 
-function Filter() {
+function Filter(props) {
   const [filter, setFilter] = useState('')
-  const dispatch = useDispatch()
 
   const handlerFilter = (event) => {
     event.preventDefault()
     setFilter(event.target.value)
-    dispatch(filterInput(filter))
+    props.filterInput(filter)
   }
 
   return (
@@ -25,4 +24,13 @@ function Filter() {
   )
 }
 
-export default Filter
+const mapsDispatchToProps = {
+  filterInput
+}
+
+const ConnectedAnecdote = connect(
+  null,
+  mapsDispatchToProps
+)(Filter)
+
+export default ConnectedAnecdote
