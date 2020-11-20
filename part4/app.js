@@ -11,7 +11,6 @@ const logging = require('./utils/logging')
 const config = require('./utils/config')
 const middleware = require('./utils/middleware')
 
-
 logging.info('connecting to', config.MONGODB_URI)
 
 const mongoUrl = process.env.MONGODB_URI 

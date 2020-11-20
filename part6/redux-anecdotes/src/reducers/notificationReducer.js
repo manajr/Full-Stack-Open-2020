@@ -10,10 +10,6 @@ const reducer = (state = '', action) => {
   }
 }
 
-function setDelay(callback, time) {
-  HOLD_SETTIMEOUT_FUNCTION = setTimeout(callback, time*1000);
-}
-
 export const setNotification = (notification, time) => {
   if(CHECK_ARRAY !== notification){
     clearTimeout(HOLD_SETTIMEOUT_FUNCTION)
@@ -28,7 +24,7 @@ export const setNotification = (notification, time) => {
     }, time*1000)
 
     CHECK_ARRAY.unshift(notification)
-    
+
     dispatch({
       type: 'NOTIFY', 
       notification: notification

@@ -36,6 +36,7 @@ app.get('/api/persons', (request, response) => {
 
 app.post('/api/persons', (request, response, next) => {
   const person = request.body
+  console.log(person)
   const persona = new Persona ({
     name: person.name,
     number: person.number

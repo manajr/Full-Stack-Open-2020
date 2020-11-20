@@ -11,11 +11,12 @@
     "deploy": "git push heroku-app",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && npm run deploy",
     "logs:prod": "heroku logs --tail",
-	"lint": "eslint ."
+    "lint": "eslint ."
   },
   "author": "Manassés Jr",
   "license": "MIT",
   "dependencies": {
+    "body-parse": "^0.1.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
