@@ -46,5 +46,12 @@ const getUserBlogs = (user) => {
   loginUsers.user.username === user.username.toString()))
 }
 
+const addComment = async (id, comment) => {
+  const commentValue = [comment]
+  const request = await axios.post(`${baseUrl}/${id}/comments`, {comments:commentValue})
+  console.log()
+  return request.data
+}
+
 export default { getAll, getUserBlogs, setToken, create
-, deleteBlog, update}
+, deleteBlog, update, addComment }

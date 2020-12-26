@@ -6,6 +6,14 @@ import { createBlog } from '../reducer/blogsReducer'
 import { notifyMessage } from '../reducer/notificationReducer'
 import blogService from '../services/blogs'
 
+/*const Button = styled.button`
+  background: #FB5F5F;
+  border-radius: 6px; 
+  font-family: Righteous;
+  font-size: 1.3em;
+  padding: .15em;
+`*/
+
 function NewBlog({ blogFormRef }) {
   const dispatch = useDispatch()
   const voidBlogFormState = {
@@ -13,6 +21,7 @@ function NewBlog({ blogFormRef }) {
     author: '',
     url:'',
   }
+
   const [newBlog, setNewBlog] = useState(voidBlogFormState)
 
   const addBlog = async (event) =>{

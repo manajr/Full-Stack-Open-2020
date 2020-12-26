@@ -1,0 +1,17 @@
+.blog__Container {
+  display:flex;
+  border: solid 2px;
+  padding-top: 1vw;
+  border-radius: 5px;
+  margin-bottom: 1vw;
+  align-items: flex-start;
+}
+
+.btn {
+  margin: 0px 0px 0 .5em;
+}
+
+span {
+  display:flex;
+  flex-direction: row;
+}

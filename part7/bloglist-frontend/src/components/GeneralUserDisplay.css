@@ -1,0 +1,8 @@
+.head__Container  li {
+    display: inline;
+}
+
+.head__Container {
+    width: 100%;
+    background-color: lightgrey;
+}
